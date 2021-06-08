@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>State and Props</h1>
+        <div id='root'>app</div>
+        <script type='text/babel'>
+            const { render } = ReactDOM
+            const { Component } = React
+
+
+
+            class App extends React.Component{
+                constructor(){
+                    super()
+                    this.state ={
+                        companies: []
+                    };
+                    this.addCompany = this.addCompany.bind(this);
+                }
+
+                deleteCompany(idx) {
+                    const companies = this.state.companies.filter((_, _idx)=> _idx !== idx);
+                    this.setState({ companies })
+                }
+
+                addCompany() {
+                    console.log(this)
+                    this.setState({companies: [...this.state.companies, faker.company.companyName()]});
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <h1>Random Companies</h1>
+                            <button onClick={ this.addCompany }>+</button>
+                            <ul>
+                                {
+                                    this.state.companies.map( (p, idx) => {
+                                        return (
+                                            <li key={ idx }>
+                                                {p}
+                                                <button onClick={()=> this.deleteCompany(idx)}>X</button>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul> 
+                        </div>
+                )
+                }
+            }
+            render(<App />, document.querySelector('#root'))
+        </script>
+    </body>
+</html>

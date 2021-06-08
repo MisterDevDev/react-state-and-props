@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>State and Props</h1>
+        <div id='root'>app</div>
+        <script type='text/babel'>
+            const { render } = ReactDOM
+            const { Component } = React
+
+
+
+            class App extends React.Component{
+                constructor(){
+                    super()
+                    this.state ={
+                        productNames: []
+                    };
+                    window.setInterval(()=> {
+                        this.setState({ productNames: [...this.state.productNames, faker.commerce.product()] })
+                    }, 10000)
+                }
+
+                render() {
+                const { productNames } = this.state
+                return (
+                    <div>
+                        <h1>Random Products</h1>
+                        <ul>
+                            {
+                                productNames.map( (p, idx) => {
+                                    return (
+                                        <li key={ idx }>
+                                            {p}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul> 
+                    </div>
+                )
+                }
+            }
+            render(<App />, document.querySelector('#root'))
+        </script>
+    </body>
+</html>
